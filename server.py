@@ -12,28 +12,15 @@ class Server:
     clients = set()
 
     async def handler(self, ws: WebSocketServerProtocol, uri: str) -> None:
-        await self.register(ws)
+        self.clients.add(ws)
         try:
             await self.distribute(ws)
         finally:
-            await self.unregister(ws)
-
-    async def register(self, ws: WebSocketServerProtocol) -> None:
-        self.clients.add(ws)
-
-    async def unregister(self, ws: WebSocketServerProtocol) -> None:
-        self.clients.remove(ws)
+            self.clients.remove(ws)
 
     async def distribute(self, ws: WebSocketServerProtocol) -> None:
         async for message in ws:
-            await self.send_to_clients(message)
-
-    async def send_to_clients(self, message: str) -> None:
-        if self.clients:
-            await asyncio.wait([
-                asyncio.create_task(client.send(message))
-                for client in self.clients
-            ])
+            websockets.broadcast(self.clients, message)
 
 
 async def run_server():
