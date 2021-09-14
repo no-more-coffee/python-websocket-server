@@ -1,2 +1,2 @@
 # python-websocket-server
-Simple WebSocket server using "websockets" package
+Simple WebSocket server using "websockets" package.

@@ -1,12 +1,30 @@
 import asyncio
 
 import websockets
+from websockets.legacy.client import WebSocketClientProtocol
+
+from server import WS_URL
 
 
-async def send_hello():
-    async with websockets.connect("ws://localhost:8765") as websocket:
-        await websocket.send("Hello world!")
-        print('Answer: ', await websocket.recv())
+async def consumer_handler(websocket: WebSocketClientProtocol):
+    async for message in websocket:
+        print(message)
+
+
+async def consume(ws_url: str):
+    async with websockets.connect(ws_url) as websocket:
+        await consumer_handler(websocket)
+
+
+async def produce(message: str, ws_url: str):
+    async with websockets.connect(ws_url) as websocket:
+        await websocket.send(message)
+        print(await websocket.recv())
+
+
+def send_test_message():
+    asyncio.run(produce(message='hi', ws_url=WS_URL))
+
 
 if __name__ == '__main__':
-    asyncio.run(send_hello())
+    asyncio.run(consume(WS_URL))
