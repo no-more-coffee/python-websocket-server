@@ -9,6 +9,7 @@ services:
       - .:/code
     ports:
       - 9001:9001
+      - 8765:8765
     hostname: server
     env_file:
       - envs/docker.env
