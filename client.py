@@ -3,7 +3,7 @@ import asyncio
 import websockets
 from websockets.legacy.client import WebSocketClientProtocol
 
-from server import WS_URL
+from settings import WS_URL
 
 
 async def consumer_handler(websocket: WebSocketClientProtocol):
@@ -12,6 +12,7 @@ async def consumer_handler(websocket: WebSocketClientProtocol):
 
 
 async def consume(ws_url: str):
+    print("consume:", ws_url)
     async with websockets.connect(ws_url) as websocket:
         await consumer_handler(websocket)
 

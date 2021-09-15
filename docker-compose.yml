@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  server:
+    build: .
+    command: supervisord -c supervisord.conf -n
+    working_dir: /code
+    volumes:
+      - .:/code
+    ports:
+      - 9001:9001
+      - 8765:8765
+    hostname: server
+    env_file:
+      - envs/docker.env
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:8080
+      - 443:443

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 websockets = "~=10.0"
 ipython = "~=7.27"
+supervisor = "~=4.2"
 
 [dev-packages]
 python-dotenv = "~=0.19"
