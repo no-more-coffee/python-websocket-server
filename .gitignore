@@ -141,3 +141,4 @@ local.env
 # Supervisord
 supervisord.pid
 supervisord.log
+*.sock

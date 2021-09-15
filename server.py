@@ -7,8 +7,8 @@ from websockets.legacy.server import WebSocketServerProtocol
 
 from settings import WS_PORT, WS_HOST
 
-# SUPERVISOR_PROCESS_NAME = os.environ['SUPERVISOR_PROCESS_NAME']
-# print("SUPERVISOR_PROCESS_NAME:", SUPERVISOR_PROCESS_NAME)
+SUPERVISOR_PROCESS_NAME = os.environ['SUPERVISOR_PROCESS_NAME']
+print("SUPERVISOR_PROCESS_NAME:", SUPERVISOR_PROCESS_NAME)
 
 
 class Server:
@@ -34,14 +34,14 @@ async def server():
     stop = loop.create_future()
     loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
-    # async with websockets.unix_serve(Server().handler, path=f"{SUPERVISOR_PROCESS_NAME}.sock"):
-    #     await stop
+    async with websockets.unix_serve(Server().handler, path=f"{SUPERVISOR_PROCESS_NAME}.sock"):
+        await stop
 
-    print(WS_HOST, WS_PORT)
+    # print(WS_HOST, WS_PORT)
     # async with websockets.serve(Server().handler, WS_HOST, WS_PORT):
     #     await stop
-    async with websockets.serve(Server().handler, host=WS_HOST, port=WS_PORT, reuse_port=True):
-        await stop
+    # async with websockets.serve(Server().handler, host=WS_HOST, port=WS_PORT, reuse_port=True):
+    #     await stop
 
 
 if __name__ == '__main__':
