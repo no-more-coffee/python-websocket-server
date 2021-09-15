@@ -34,12 +34,12 @@ async def server():
     stop = loop.create_future()
     loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
-    # async with websockets.unix_serve(Server().handler, path=f"{SUPERVISOR_PROCESS_NAME}.sock"):
-    #     await stop
-
-    print(WS_HOST, WS_PORT)
-    async with websockets.serve(Server().handler, WS_HOST, WS_PORT):
+    async with websockets.unix_serve(Server().handler, path=f"{SUPERVISOR_PROCESS_NAME}.sock"):
         await stop
+
+    # print(WS_HOST, WS_PORT)
+    # async with websockets.serve(Server().handler, WS_HOST, WS_PORT):
+    #     await stop
     # async with websockets.serve(Server().handler, host=WS_HOST, port=WS_PORT, reuse_port=True):
     #     await stop
 
