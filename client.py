@@ -1,12 +1,11 @@
 import asyncio
 
 import websockets
-from websockets.legacy.client import WebSocketClientProtocol
 
 from settings import WS_URL
 
 
-async def consumer_handler(websocket: WebSocketClientProtocol):
+async def consumer_handler(websocket: websockets.WebSocketClientProtocol):
     async for message in websocket:
         print(message)
 

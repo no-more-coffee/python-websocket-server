@@ -2,7 +2,6 @@ import asyncio
 import signal
 
 import websockets
-from websockets.legacy.server import WebSocketServerProtocol
 
 from settings import CURRENT_CONFIG
 
@@ -10,7 +9,7 @@ from settings import CURRENT_CONFIG
 class Server:
     clients = set()
 
-    async def handler(self, ws: WebSocketServerProtocol, uri: str) -> None:
+    async def handler(self, ws: websockets.WebSocketServerProtocol, uri: str) -> None:
         print('Starting')
         self.clients.add(ws)
         try:
@@ -19,7 +18,7 @@ class Server:
             print('Stopping')
             self.clients.remove(ws)
 
-    async def distribute(self, ws: WebSocketServerProtocol) -> None:
+    async def distribute(self, ws: websockets.WebSocketServerProtocol) -> None:
         async for message in ws:
             websockets.broadcast(self.clients, message)
 
